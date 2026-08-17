@@ -9,9 +9,9 @@ Whether you need a simple system proxy or a leak-proof VPN experience (TUN mode)
 
 ---
 
-## ✨ Why Choose Vxray over v2rayN or Nekoray?
+## ✨ Why Choose Vxray over old V2ray clients?
 
-Traditional clients like v2rayN and Nekoray are powerful, but they suffer from outdated, cluttered interfaces, steep learning curves, and manual configuration requirements to prevent IP leaks. **Vxray solves all of this.**
+Traditional clients are powerful, but they suffer from outdated, cluttered interfaces, steep learning curves, and manual configuration requirements to prevent IP leaks. **Vxray solves all of this.**
 
 ### 🎨 Premium, Modern User Interface
 Say goodbye to spreadsheet-like menus and clunky drop-downs. Vxray features a stunning, dynamic, glassmorphic UI. It’s designed to be intuitive enough for beginners, yet powerful enough for advanced users. It feels like a native, premium app—not a developer tool.
