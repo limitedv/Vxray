@@ -1,0 +1,17 @@
+{
+    "inbounds": [
+        {
+            "listen": "127.0.0.1",
+            "port": 2081,
+            "protocol": "socks",
+            "settings": {
+                "udp": true
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom"
+        }
+    ]
+}

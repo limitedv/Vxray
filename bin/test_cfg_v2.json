@@ -1,0 +1,43 @@
+{
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "listen_port": 2080,
+      "tag": "mixed-in",
+      "type": "mixed"
+    }
+  ],
+  "log": {
+    "level": "debug"
+  },
+  "outbounds": [
+    {
+      "packet_encoding": "xudp",
+      "server": "192.206.179.241",
+      "server_port": 2053,
+      "tag": "proxy",
+      "tls": {
+        "enabled": true,
+        "insecure": true,
+        "server_name": "liz2.pishi.lat",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "headers": {
+          "Host": "liz2.pishi.lat"
+        },
+        "path": "/lizard",
+        "type": "ws"
+      },
+      "type": "vless",
+      "uuid": "0e61c812-49f0-4dd3-992d-654d47c52a0f"
+    },
+    {
+      "tag": "direct",
+      "type": "direct"
+    }
+  ]
+}

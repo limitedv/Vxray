@@ -1,0 +1,10 @@
+{
+    "route": {
+        "rules": [
+            {
+                "process_name": ["xray.exe", "sing-box.exe"],
+                "outbound": "direct"
+            }
+        ]
+    }
+}

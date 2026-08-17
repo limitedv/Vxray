@@ -1,0 +1,47 @@
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "port": 2080,
+      "listen": "127.0.0.1",
+      "protocol": "http"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "fsxhh1.uarlixo.ir",
+            "port": 443,
+            "users": [
+              {
+                "id": "0e61c812-49f0-4dd3-992d-654d47c52a0f",
+                "encryption": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "xhttp",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "speedtest.net",
+          "allowInsecure": false,
+          "fingerprint": "safari",
+          "pinnedPeerCertSha256": "cd6e838b9bfe31cab8b3d5c858b0d6223fe84ece236c1fdb281be93c302e1e6e",
+          "alpn": ["h2"]
+        },
+        "xhttpSettings": {
+          "path": "/lizzard",
+          "host": "lizzard3.global.ssl.fastly.net",
+          "mode": "packet-up"
+        }
+      }
+    }
+  ]
+}

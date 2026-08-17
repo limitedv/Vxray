@@ -1,0 +1,22 @@
+{
+  ""inbounds"": [{""listen"": ""127.0.0.1"", ""port"": 2099, ""protocol"": ""mixed""}],
+  ""outbounds"": [
+    {
+      ""type"": ""vless"",
+      ""server"": ""167.82.76.31"",
+      ""server_port"": 443,
+      ""uuid"": ""0e61c812-49f0-4dd3-992d-654d47c52a0f"",
+      ""tls"": {
+        ""enabled"": true,
+        ""server_name"": ""speedtest.net"",
+        ""insecure"": true,
+        ""alpn"": [""h2""]
+      },
+      ""transport"": {
+        ""type"": ""xhttp"",
+        ""path"": ""/lizzard"",
+        ""host"": ""happily-noted-goblin.global.ssl.fastly.net""
+      }
+    }
+  ]
+}

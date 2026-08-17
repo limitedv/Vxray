@@ -1,0 +1,53 @@
+{
+  "log": {
+    "loglevel": "debug"
+  },
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 2099,
+      "protocol": "mixed",
+      "settings": {},
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls"]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "167.82.76.31",
+            "port": 443,
+            "users": [
+              {
+                "encryption": "none",
+                "id": "0e61c812-49f0-4dd3-992d-654d47c52a0f"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "xhttp",
+        "security": "tls",
+        "tlsSettings": {
+          "allowInsecure": true,
+          "alpn": [
+            "h2"
+          ],
+          "fingerprint": "firefox",
+          "serverName": "speedtest.net"
+        },
+        "xhttpSettings": {
+          "host": "happily-noted-goblin.global.ssl.fastly.net",
+          "mode": "packet-up",
+          "path": "/lizzard"
+        }
+      }
+    }
+  ]
+}

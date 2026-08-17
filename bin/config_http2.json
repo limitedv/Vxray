@@ -1,0 +1,27 @@
+{
+  "outbounds": [
+    {
+      "packet_encoding": "xudp",
+      "server": "1.2.3.4",
+      "server_port": 443,
+      "tag": "proxy",
+      "tls": {
+        "enabled": true,
+        "insecure": false,
+        "server_name": "speedtest.net",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "safari"
+        }
+      },
+      "transport": {
+        "host": ["lizzard3.global.ssl.fastly.net"],
+        "path": "/lizzard",
+        "type": "http"
+      },
+      "type": "vless",
+      "uuid": "0e61c812-49f0-4dd3-992d-654d47c52a0f"
+    },
+    {"tag": "direct","type": "direct"}
+  ]
+}

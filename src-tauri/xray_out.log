@@ -1,0 +1,15 @@
+Xray 26.3.27 (Xray, Penetrates Everything.) d2758a0 (go1.26.1 windows/amd64)
+A unified platform for anti-censorship.
+2026/08/07 00:54:45.666159 [Info] infra/conf/serial: Reading config: &{Name:test_debug.json Format:json}
+2026/08/07 00:54:45.681756 [Debug] app/log: Logger started
+2026/08/07 00:54:45.692119 [Debug] app/proxyman/inbound: creating stream worker on 127.0.0.1:2080
+2026/08/07 00:54:45.807065 [Info] transport/internet/tcp: listening TCP on 127.0.0.1:2080
+2026/08/07 00:54:45.824853 [Info] transport/internet/udp: listening UDP on 127.0.0.1:2080
+2026/08/07 00:54:45.841104 [Warning] core: Xray 26.3.27 started
+2026/08/07 00:54:47.561209 [Info] [457956801] proxy/socks: TCP Connect request to tcp:google.com:443
+2026/08/07 00:54:47.563131 [Info] [457956801] app/dispatcher: default route for tcp:google.com:443
+2026/08/07 00:54:47.563131 [Debug] [457956801] transport/internet/splithttp: XMUX: creating xmuxClient because xmuxClients is empty
+2026/08/07 00:54:47.563893 [Info] [457956801] transport/internet/splithttp: XHTTP is dialing to tcp:167.82.76.31:443, mode packet-up, HTTP version 2, host happily-noted-goblin.global.ssl.fastly.net
+2026/08/07 00:54:47.564430 [Debug] [457956801] transport/internet: dialing to tcp:167.82.76.31:443
+2026/08/07 00:54:47.561209 from tcp:127.0.0.1:65281 accepted tcp:google.com:443
+2026/08/07 00:54:48.028081 [Info] [457956801] proxy/vless/outbound: tunneling request to tcp:google.com:443 via 167.82.76.31:443
