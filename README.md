@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>🛡️ Vxray</h1>
+  <h1> 🔒Vxray</h1>
   <p><strong>The Next-Generation, Ultra-Secure Proxy Client for Windows</strong></p>
 </div>
 
