@@ -1,1 +1,0 @@
-C:\Users\sadra\OneDrive\Vxray\Vxray-Rust\src-tauri\target\debug\test_generate.exe: C:\Users\sadra\OneDrive\Vxray\Vxray-Rust\src-tauri\build.rs C:\Users\sadra\OneDrive\Vxray\Vxray-Rust\src-tauri\capabilities C:\Users\sadra\OneDrive\Vxray\Vxray-Rust\src-tauri\src\bin\test_generate.rs C:\Users\sadra\OneDrive\Vxray\Vxray-Rust\src-tauri\tauri.conf.json

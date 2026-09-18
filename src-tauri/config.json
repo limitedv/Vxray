@@ -1,0 +1,39 @@
+
+{
+  "log": { "loglevel": "warning" },
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 2088,
+      "protocol": "http",
+      "settings": { "allowTransparent": false },
+      "sniffing": { "enabled": true, "destOverride": ["http", "tls"] }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vless",
+      "settings": {
+        "vnext": [{
+          "address": "NVME.kakeroo.ir",
+          "port": 80,
+          "users": [{
+            "id": "28eb2ffa-81c0-450c-ae60-db87bacc0cc0",
+            "encryption": "none"
+          }]
+        }]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "none",
+        "wsSettings": {
+          "path": "/",
+          "headers": {
+            "Host": "FRANKDOLL.global.ssl.fastly.net"
+          }
+        }
+      }
+    }
+  ]
+}
+

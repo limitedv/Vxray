@@ -1,19 +1,21 @@
 [package]
 name = "vxray-rust"
-version = "1.0.0"
-description = "Vxray proxy client"
+version = "2.0.1"
+description = "Vxray written in Rust and Tauri"
 authors = ["you"]
 edition = "2021"
+
+default-run = "vxray-rust"
 
 [build-dependencies]
 tauri-build = { version = "2.0.0", features = [] }
 
 [dependencies]
-tauri = { version = "2.0.0", features = ["tray-icon"] }
+tauri = { version = "2.0.0", features = ["tray-icon", "devtools"] }
 tauri-plugin-shell = "2.0.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-reqwest = { version = "0.12", features = ["json"] }
+reqwest = { version = "0.12", features = ["json", "socks"] }
 tokio = { version = "1", features = ["full"] }
 url = "2.5"
 base64 = "0.22"
@@ -21,12 +23,25 @@ regex = "1.10"
 winreg = "0.52"
 urlencoding = "2.1.3"
 dirs = "6.0.0"
+tauri-plugin-single-instance = "2.4.3"
+tauri-plugin-autostart = "2.5.1"
+once_cell = "1.21.4"
+arboard = "3.6.1"
+percent-encoding = "2.3.2"
+os_pipe = "1.2.3"
 
 [dependencies.windows-sys]
 version = "0.52"
 features = [
-    "Win32_Networking_WinInet",
+    "Win32_Networking_WinInet", "Win32_System_Com",
     "Win32_UI_Shell",
     "Win32_UI_WindowsAndMessaging",
-    "Win32_Foundation",
+    "Win32_Foundation", "Win32_System_JobObjects", "Win32_System_Threading", "Win32_Security",
 ]
+
+[profile.release]
+panic = "abort" # Strip panic unwinding for security/size
+codegen-units = 1 # Better optimization
+lto = true # Link time optimization
+opt-level = 3 # Max speed
+strip = true # Strip symbols

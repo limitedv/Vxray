@@ -1,6 +1,6 @@
 {
   "name": "vxray-rust",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "description": "Vxray written in Rust and Tauri",
   "scripts": {
     "dev": "tauri dev",

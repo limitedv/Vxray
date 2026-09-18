@@ -4,7 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vxray</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=1788818000000">
+  <script>
+    // Intercept Ctrl+R and F5 at earliest capture phase t✕prevent WebView2 page reload
+    window.addEventListener('keydown', function(e) {
+      var isCtrlOrCmd = e.ctrlKey || e.metaKey;
+      var isKeyR = e.code === 'KeyR' || e.keyCode === 82 || (e.key && e.key.toLowerCase() === 'r') || e.key === 'ق';
+      var isF5 = e.key === 'F5' || e.keyCode === 116 || e.code === 'F5';
+      if ((isCtrlOrCmd && isKeyR) || isF5) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        if (typeof window.triggerPingTestShortcut === 'function') {
+          window.triggerPingTestShortcut();
+        }
+      }
+    }, { capture: true, passive: false });
+  </script>
 </head>
 <body>
   <div class="titlebar" id="titlebar">
@@ -34,40 +50,36 @@
             <span class="tab-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="4" ry="4"></rect><rect x="2" y="14" width="20" height="8" rx="4" ry="4"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg></span>
             <span class="tab-text">Servers</span>
           </button>
-          <button id="tab-settings" class="tab-btn" onclick="switchTab(1)">
+          
+          <button id="tab-subscriptions" class="tab-btn" onclick="switchTab(1)">
+            <span class="tab-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span>
+            <span class="tab-text">Subscriptions</span>
+          </button>
+          <button id="tab-routing" class="tab-btn" onclick="switchTab(2)">
+            <span class="tab-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>
+            <span class="tab-text">Routing</span>
+          </button>
+          <button id="tab-settings" class="tab-btn" onclick="switchTab(3)">
             <span class="tab-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
+            <span class="tab-text">Settings</span>
+          </button>
+          <button id="tab-speedtest" class="tab-btn" onclick="switchTab(4)">
+            <span class="tab-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
+            <span class="tab-text">Speed Test</span>
           </button>
         </div>
       </div>
 
       <div class="sidebar-bottom">
-        <!-- IP Info -->
-        <div class="ip-info">
-          <img id="flag-img" class="flag-icon" src="" alt="" style="display:none;">
-          <span id="country-name">Ready</span>
-        </div>
-        <div class="ip-address spoiler" id="ip-address">---.---.---.---</div>
+        <!-- Hidden elements t✕keep app.js happy -->
+        <span id="country-name" style="display:none;">Ready</span>
+        <input type="checkbox" id="tun-toggle" checked style="display:none;">
 
-        <!-- TUN Mode Toggle -->
-        <div class="tun-row">
-          <span class="tun-label">TUN</span>
-          <label class="toggle-switch">
-            <input type="checkbox" id="tun-toggle">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <!-- Status & Ping Row -->
-        <div class="status-row">
-          <div class="status offline" id="status-label">Offline</div>
-          <div class="live-ping" id="live-ping" style="display:none;">Ping: -</div>
-        </div>
-        
-        <!-- Global Connect Button -->
-        <div class="sidebar-connect">
-          <button class="connect-btn" id="btn-connect" onclick="toggleConnection()">
+        <!-- Clean Sidebar Connect Button -->
+        <div class="sidebar-connect" id="lcd-capsule">
+          <button class="micro-connect-btn" id="btn-connect" onclick="toggleConnection()">
+            <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
             <span class="connect-text">Connect</span>
-            <span class="connect-icon" style="display:none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg></span>
           </button>
         </div>
       </div>
@@ -75,13 +87,46 @@
 
     <!-- Main Content -->
     <main class="main-content">
+      <!-- Floating Status Capsule (Bottom Center) -->
+      <div class="dock-glass offline" id="lcd-network">
+        <div id="dash-icon" style="display:none;"></div>
+
+        <!-- Status Dot, Title, Ping Badge -->
+        <div class="dock-chip">
+          <span class="dock-dot"></span>
+          <span id="dash-title" class="dock-title">Offline</span>
+          <span id="dash-subtitle" style="display:none;">Waiting for network...</span>
+          <span id="live-ping-rim" class="dock-badge">OFF</span>
+        </div>
+
+        <div class="dock-divider"></div>
+
+        <!-- Flag & IP -->
+        <div class="dock-chip" title="Current IP">
+          <img id="flag-img" class="dock-flag" src="" alt="" style="display:none;">
+          <span id="ip-address" class="dock-ip">---.---.---.---</span>
+        </div>
+
+        <div class="dock-divider"></div>
+
+        <!-- TUN Toggle -->
+        <div class="dock-chip dock-tun" onclick="event.stopPropagation(); toggleTunUI()" title="Toggle TUN Mode">
+          <span class="dock-tun-label">TUN</span>
+          <label class="toggle-switch dock-toggle" style="pointer-events: none;">
+            <input type="checkbox" id="micro-tun-checkbox">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
       <!-- Page 0: Server Dashboard -->
       <div id="page-servers" class="page active">
         <div class="page-header">
           <h2>Server Dashboard</h2>
           <div class="header-actions">
-            <button class="action-btn" id="btn-test" onclick="testAllLatency()">Test Latency</button>
-            <button class="action-btn" id="btn-logs" onclick="toggleLogs()">Show Logs</button>
+            <button class="simple-plus-btn" onclick="openImportModal()" title="Add Server or Subscription">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
           </div>
         </div>
         <div class="server-list" id="server-list"></div>
@@ -89,58 +134,569 @@
       </div>
 
       <!-- Page 1: Settings -->
-      <div id="page-settings" class="page">
-        <h2 class="settings-title">Add Subscription / Server</h2>
-        <p class="settings-desc">Paste a subscription URL or a single proxy link (VLESS/VMess/SS/Trojan/Hy2/TUIC).</p>
-        <div class="input-row">
-          <input type="text" id="txt-input" placeholder="Paste link here..." autocomplete="off">
-          <button class="action-btn add-btn" onclick="handleSmartAdd()">Add</button>
-        </div>
-        <button class="action-btn" id="btn-update-subs" onclick="updateAllSubscriptions()">Update All Subscriptions</button>
-
-        <div class="settings-section">
-          <h3 class="settings-section-title">Startup</h3>
-
-          <div class="settings-row">
-            <div class="settings-row-text">
-              <span class="settings-row-label">Auto Reconnect</span>
-              <span class="settings-row-desc">Reconnect to last server on app launch</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-auto-reconnect">
-              <span class="toggle-slider"></span>
-            </label>
+      
+      
+      <div id="page-subscriptions" class="page">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2>Subscriptions</h2>
+            <p class="settings-desc" style="margin-top: 4px;">Manage, configure, and monitor your subscription databases.</p>
           </div>
-
-          <div class="settings-row">
-            <div class="settings-row-text">
-              <span class="settings-row-label">Start with Windows</span>
-              <span class="settings-row-desc">Launch Vxray when you sign in to Windows</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-auto-start">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-
-          <div class="settings-row sub-setting" id="row-start-minimized">
-            <div class="settings-row-text">
-              <span class="settings-row-label">Start Minimized</span>
-              <span class="settings-row-desc">Open in system tray instead of window</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="toggle-start-minimized">
-              <span class="toggle-slider"></span>
-            </label>
+          <div class="header-actions" style="display: flex; align-items: center; gap: 12px;">
+            <button class="help-btn-sq" onclick="showHelp('subscriptions')" title="Help">?</button>
+            <button class="simple-plus-btn" onclick="openImportModal()" title="Add Server or Subscription">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <button class="btn-primary" id="btn-update-all-subs" onclick="updateAllSubscriptions()" style="display: flex; align-items: center; gap: 8px; font-size: 13px; height: 38px; padding: 0 16px; border-radius: 12px;">
+              <svg class="update-all-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              <span>Update All</span>
+            </button>
           </div>
         </div>
 
-        <div class="settings-spacer"></div>
-        <button class="danger-btn" onclick="clearData()">Clear All Data</button>
+        <!-- Add Subscription Bar -->
+        <div class="sub-add-bar" style="margin-top: 10px;">
+          <div class="input-row" style="display: flex; align-items: stretch; height: 40px;">
+            <input type="text" id="txt-input" class="fancy-input" placeholder="Paste subscription URL (http/https) or proxy link..." spellcheck="false" autocomplete="off" style="flex:1; border-radius: 8px; height: 100%; box-sizing: border-box; margin: 0;">
+            <button class="btn-primary" onclick="handleSmartAdd()" style="border-radius: 8px; height: 100%; box-sizing: border-box; margin: 0; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 18px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Add</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Subscriptions Database Container -->
+        <div id="subscriptions-list" class="subscriptions-container" style="margin-top: 20px;"></div>
       </div>
+
+      <div id="page-routing" class="page">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+          <h2>Routing</h2>
+          <button class="help-btn-sq" onclick="showHelp('routing')" title="Help">?</button>
+        </div>
+
+        <div class="settings-pane active" style="margin-top: 10px;">
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-name">Bypass Iran Sites</span>
+              <span class="setting-desc"><span>Direct connection for IR domains & IPs</span> <button class="help-btn-inline" onclick="showHelp('bypass_iran')">?</button></span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-preset-iran" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-name">Bypass LAN</span>
+              <span class="setting-desc"><span>Allow local network devices t✕connect without VPN</span> <button class="help-btn-inline" onclick="showHelp('bypass_lan')">?</button></span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-preset-lan" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-name">Block Ads</span>
+              <span class="setting-desc"><span>Block common ad/tracking domains</span> <button class="help-btn-inline" onclick="showHelp('block_ads')">?</button></span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggle-preset-ads">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <h3 style="margin-top: 20px; font-size: 14px;">Custom Rules</h3>
+          <div class="input-row" style="margin-top: 10px; display: flex; align-items: stretch; height: 38px;">
+            <input type="text" id="txt-rule-pattern" class="fancy-input" placeholder="e.g. varzesh3.com, *.ir, 1.1.1.1" spellcheck="false" autocomplete="off" style="flex:1; border-radius: 8px; height: 100%; box-sizing: border-box; margin: 0;">
+            
+            <div class="custom-dropdown" id="action-dropdown" style="width: 125px; height: 100%;">
+              <div class="custom-dropdown-selected" id="action-dropdown-selected" style="border-radius: 8px; height: 100%; box-sizing: border-box;">
+                <span class="dropdown-value">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 14 20 9 15 4"></polyline><path d="M4 20v-7a4 4 0 0 1 4-4h12"></path></svg>
+                  <span>Bypass</span>
+                </span>
+              </div>
+              <div class="custom-dropdown-options" id="action-dropdown-options" style="border-radius: 8px;">
+                <div class="custom-dropdown-option active" data-value="bypass">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 14 20 9 15 4"></polyline><path d="M4 20v-7a4 4 0 0 1 4-4h12"></path></svg>
+                  <span>Bypass</span>
+                </div>
+                <div class="custom-dropdown-option" data-value="block">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+                  <span>Block</span>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="select-rule-action" value="bypass">
+
+            <button id="btn-add-rule" class="btn-primary" onclick="handleAddRoutingRule()" style="border-radius: 8px; height: 100%; box-sizing: border-box; margin: 0; display: flex; align-items: center; justify-content: center;">Add</button>
+          </div>
+          <div id="routing-rules-list" class="routing-rules-list" style="margin-top: 10px;"></div>
+        </div>
+      </div>
+<div id="page-settings" class="page">
+  <div class="page-header"><h2>Settings</h2></div>
+  
+  <!-- Settings Tab Bar -->
+  <div class="settings-tab-bar">
+    <button class="settings-tab-btn active" onclick="switchSettingsTab('general')">General</button>
+    <button class="settings-tab-btn" onclick="switchSettingsTab('appearance')">Appearance</button>
+    <button class="settings-tab-btn" onclick="switchSettingsTab('advanced')">Advanced</button>
+  </div>
+  
+  <!-- General Tab -->
+  <div id="settings-general" class="settings-pane active">
+    <div class="settings-group">
+      <h3 class="settings-group-title">System & Startup</h3>
+
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">Start with Windows</span>
+          <span class="setting-desc">Launch Vxray automatically on system startup</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" id="toggle-auto-start"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">Start Minimized</span>
+          <span class="setting-desc">Start in system tray when launched automatically</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" id="toggle-start-minimized"><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+    <div class="settings-group">
+      <h3 class="settings-group-title">Subscriptions</h3>
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">Automatically update subscription on startup</span>
+          <span class="setting-desc">Automatically refresh and sync all subscriptions when Vxray launches</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" id="toggle-auto-update-subs" checked><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+    <div class="settings-group">
+      <h3 class="settings-group-title">Connection</h3>
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">Aut✕Reconnect</span>
+          <span class="setting-desc">Reconnect t✕last server on app startup</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" id="toggle-auto-reconnect"><span class="toggle-slider"></span></label>
+      </div>
+            <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">IP Blur (Spoiler)</span>
+          <span class="setting-desc">Hide your IP address (for streaming)</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" id="toggle-blur-ip"><span class="toggle-slider"></span></label>
+      </div>
+<div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">Live Ping Indicator</span>
+          <span class="setting-desc">Show real-time ping</span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" id="toggle-live-ping" checked><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Appearance Tab -->
+  <div id="settings-appearance" class="settings-pane">
+    <div class="settings-group">
+      <h3 class="settings-group-title">Theme & Display</h3>
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">Dark High-Contrast</span>
+          <span class="setting-desc">Current active theme</span>
+        </div>
+        <span class="theme-badge">Active</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Advanced Tab -->
+  <div id="settings-advanced" class="settings-pane">
+    <div class="settings-group">
+      <h3 class="settings-group-title">Network & Routing Security</h3>
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">Strict Route</span>
+          <span class="setting-desc"><span>Enforce strict routing rules for TUN mode</span> <button class="help-btn-inline" onclick="showHelp('strict_route')">?</button></span>
+        </div>
+        <label class="toggle-switch"><input type="checkbox" id="toggle-strict-route" checked><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+    <div class="settings-group">
+      <h3 class="settings-group-title">DNS Configuration</h3>
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">Remote Secure DNS</span>
+          <span class="setting-desc">DNS server used through proxy tunnel <button class="help-btn-inline" onclick="showHelp('remote_dns')">?</button></span>
+        </div>
+        <input type="text" id="input-remote-dns" class="setting-input" value="https://1.1.1.1/dns-query" placeholder="Remote DNS">
+      </div>
+      <div class="setting-item">
+        <div class="setting-info">
+          <span class="setting-name">Direct Local DNS</span>
+          <span class="setting-desc">DNS server for direct connections <button class="help-btn-inline" onclick="showHelp('local_dns')">?</button></span>
+        </div>
+        <input type="text" id="input-local-dns" class="setting-input" value="local" placeholder="Local DNS">
+      </div>
+    </div>
+    <div class="settings-group">
+      <h3 class="settings-group-title">Anti-Censorship & Proxy Core</h3>
+      <div class="setting-item" style="overflow: visible;">
+        <div class="setting-info">
+          <span class="setting-name">Core Selection</span>
+          <span class="setting-desc">Choose the proxy engine <button class="help-btn-inline" onclick="showHelp('core_selection')">?</button></span>
+        </div>
+        <div class="custom-dropdown" id="core-dropdown">
+          <div class="custom-dropdown-selected" id="core-dropdown-selected">Auto</div>
+          <div class="custom-dropdown-options" id="core-dropdown-options">
+            <div class="custom-dropdown-option active" data-value="auto">
+                  Auto
+                </div>
+            <div class="custom-dropdown-option" data-value="sing-box">Sing-Box</div>
+            <div class="custom-dropdown-option" data-value="xray">Xray</div>
+          </div>
+        </div>
+        <!-- Hidden input t✕store value, if app.js needs an ID 'select-core' -->
+        <input type="hidden" id="select-core" value="auto">
+      </div>
+    </div>
+    <div class="settings-group">
+      <button class="danger-btn" onclick="clearData()">Clear All Data</button>
+    </div>
+  </div>
+</div>
+<!-- Page 4: Speed Test -->
+<div id="page-speedtest" class="page">
+  <div class="page-header"><h2>Speed Test</h2></div>
+  
+  <div class="speedtest-container">
+    
+    <!-- Top Bar: Server Chooser -->
+    <div class="st-server-chooser-wrapper">
+      <div class="st-server-chooser">
+        <label class="st-label">Target Test Server: <span style="color: white; font-weight: normal; margin-left: 10px;">Optimal Server (Auto)</span></label>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="st-main-content">
+      <!-- Big Center GO Button -->
+      <button class="st-btn-go-large" id="st-btn-go-large" onclick="startSpeedTest()">GO</button>
+
+      <!-- Gauge Area (Hidden initially) -->
+      <div class="st-gauge-area" id="st-gauge-area" style="display: none; opacity: 0;">
+        <div class="st-gauge-wrapper">
+          <svg class="st-gauge-svg" viewBox="0 0 200 120">
+            <path class="st-gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" />
+            <path class="st-gauge-fill" id="st-gauge-fill" d="M 20 100 A 80 80 0 0 1 180 100" stroke-dasharray="251" stroke-dashoffset="251" />
+            <polygon class="st-gauge-needle" id="st-gauge-needle" points="96,102 104,102 100,20" />
+            <circle class="st-gauge-center" cx="100" cy="100" r="6" />
+          </svg>
+        </div>
+        <div class="st-speed-text">
+          <div class="st-speed-value" id="st-speed-value">0.00</div>
+          <div class="st-speed-unit">Mbps</div>
+        </div>
+      </div>
+
+      <!-- Stop Button (Hidden initially) -->
+      <button class="st-btn-stop" id="st-btn-stop" onclick="startSpeedTest()" style="display: none;">STOP</button>
+    </div>
+
+    <!-- Results Area -->
+    <div class="st-results" id="st-results">
+      <div class="st-result-card">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="st-icon"><polyline points="7 14 12 19 17 14"></polyline><line x1="12" y1="19" x2="12" y2="5"></line></svg>
+        <div class="st-result-labels">
+          <span class="st-label">DOWNLOAD</span>
+          <span class="st-val" id="st-val-download">---</span>
+        </div>
+      </div>
+      <div class="st-result-card">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="st-icon"><polyline points="17 10 12 5 7 10"></polyline><line x1="12" y1="5" x2="12" y2="19"></line></svg>
+        <div class="st-result-labels">
+          <span class="st-label">UPLOAD</span>
+          <span class="st-val" id="st-val-upload">---</span>
+        </div>
+      </div>
+      <div class="st-result-card">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="st-icon"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        <div class="st-result-labels">
+          <span class="st-label">PING</span>
+          <span class="st-val" id="st-val-ping">---</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+      <!-- Floating Log Button -->
+      <button class="floating-log-btn" id="btn-logs" onclick="toggleLogs()" title="Show Logs">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+      </button>
     </main>
+  </div>
+
+  <!-- Statistics Modal -->
+  <div id="stats-modal" class="stats-modal" style="display:none;">
+    <div class="stats-modal-content">
+      <div class="stats-modal-header">
+        <h3 id="stats-modal-title">Statistics</h3>
+        <button class="stats-close-btn" onclick="closeStatsModal()">✕</button>
+      </div>
+      <div class="stats-modal-body">
+        <div class="stats-info-row">
+          <div class="stats-card">
+            <span class="stats-label">Total Used</span>
+            <span class="stats-value" id="stats-total-used">0 B</span>
+          </div>
+          <div class="stats-card">
+            <span class="stats-label">Average Ping</span>
+            <span class="stats-value" id="stats-avg-ping">- ms</span>
+          </div>
+          <div class="stats-card" id="stats-traffic-card" style="display:none;">
+            <span class="stats-label">Traffic Left</span>
+            <span class="stats-value" id="stats-traffic-left">-</span>
+          </div>
+          <div class="stats-card" id="stats-expire-card" style="display:none;">
+            <span class="stats-label">Days Left</span>
+            <span class="stats-value" id="stats-days-left">-</span>
+          </div>
+        </div>
+        <div class="stats-graph-container">
+          <canvas id="stats-canvas" width="500" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subscription Edit Modal -->
+  <!-- Subscription Edit Modal (Optimized Wide Layout) -->
+  <div id="edit-sub-modal" class="stats-modal" style="display:none;">
+    <div class="stats-modal-content edit-sub-modal-content">
+      <div class="stats-modal-header" style="padding: 16px 24px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          <h3 id="edit-sub-modal-title" style="font-size: 16.5px;">Edit Subscription</h3>
+        </div>
+        <button class="stats-close-btn" onclick="closeEditSubModal()">✕</button>
+      </div>
+
+      <div class="stats-modal-body edit-sub-modal-body">
+        <!-- Row 1: Name & URL (2 Columns) -->
+        <div class="edit-sub-grid-2">
+          <!-- Subscription Name -->
+          <div class="setting-item" style="flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 0; padding: 12px 16px;">
+            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+              <span class="setting-name" style="font-size: 13.5px;">Subscription Name</span>
+              <span id="edit-sub-server-count" class="sub-badge servers-badge" style="font-size: 11px;">0 Servers</span>
+            </div>
+            <input type="text" id="edit-sub-name" class="fancy-input" placeholder="Subscription Name" style="width: 100%; border-radius: 8px; box-sizing: border-box; height: 38px; font-size: 13px;">
+          </div>
+
+          <!-- Subscription URL -->
+          <div class="setting-item" style="flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 0; padding: 12px 16px;">
+            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+              <span class="setting-name" style="font-size: 13.5px;">Subscription URL</span>
+              <button id="btn-edit-copy-url" onclick="copyCurrentEditUrl()" style="background: none; border: none; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 11.5px; transition: color 0.15s ease;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="3" ry="3"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>Copy URL</span>
+              </button>
+            </div>
+            <input type="text" id="edit-sub-url" class="fancy-input" placeholder="https://..." spellcheck="false" autocomplete="off" style="width: 100%; border-radius: 8px; font-size: 12px; font-family: monospace; box-sizing: border-box; height: 38px;">
+          </div>
+        </div>
+
+        <!-- Row 2: Aut✕Update & Interval (2 Columns) -->
+        <div class="edit-sub-grid-2">
+          <!-- Aut✕Update Switch -->
+          <div class="setting-item" style="margin-bottom: 0; padding: 14px 16px; justify-content: space-between; align-items: center;">
+            <div class="setting-info">
+              <span class="setting-name" style="font-size: 13.5px;">Aut✕Update</span>
+              <span class="setting-desc" style="font-size: 12px; margin-top: 2px;">Periodically sync configs in background</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="edit-sub-auto-update">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <!-- Update Interval Chips & Input -->
+          <div class="setting-item" style="flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 0; padding: 12px 16px;">
+            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+              <span class="setting-name" style="font-size: 13.5px;">Update Interval</span>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <input type="number" id="edit-sub-interval" class="fancy-input" style="width: 56px; height: 28px; border-radius: 6px; padding: 2px 6px; font-size: 12.5px; text-align: center; box-sizing: border-box;" min="1" max="168">
+                <span style="font-size: 12px; color: var(--text-secondary);">hours</span>
+              </div>
+            </div>
+            <div class="interval-chips" style="margin-top: 2px;">
+              <button class="interval-chip" data-hours="1" onclick="selectIntervalChip(1)" style="padding: 4px 10px; font-size: 11.5px;">1h</button>
+              <button class="interval-chip" data-hours="4" onclick="selectIntervalChip(4)" style="padding: 4px 10px; font-size: 11.5px;">4h</button>
+              <button class="interval-chip" data-hours="12" onclick="selectIntervalChip(12)" style="padding: 4px 10px; font-size: 11.5px;">12h</button>
+              <button class="interval-chip" data-hours="24" onclick="selectIntervalChip(24)" style="padding: 4px 10px; font-size: 11.5px;">24h</button>
+              <button class="interval-chip" data-hours="48" onclick="selectIntervalChip(48)" style="padding: 4px 10px; font-size: 11.5px;">48h</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Subscription Statistics (4 Cards + Graph) -->
+        <div id="edit-sub-stats-section" style="display: flex; flex-direction: column; gap: 10px; margin-top: 2px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="settings-group-title" style="margin: 0; padding: 0; font-size: 12px;">Subscription Statistics</span>
+          </div>
+          <div class="stats-info-row" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 0;">
+            <div class="stats-card" style="padding: 10px 14px; gap: 4px;">
+              <span class="stats-label" style="font-size: 10px;">Total Used</span>
+              <span class="stats-value" id="edit-sub-total-used" style="font-size: 14.5px;">0 B</span>
+            </div>
+            <div class="stats-card" style="padding: 10px 14px; gap: 4px;">
+              <span class="stats-label" style="font-size: 10px;">Avg Ping</span>
+              <span class="stats-value" id="edit-sub-avg-ping" style="font-size: 14.5px;">- ms</span>
+            </div>
+            <div class="stats-card" style="padding: 10px 14px; gap: 4px;">
+              <span class="stats-label" style="font-size: 10px;">Traffic Left</span>
+              <span class="stats-value" id="edit-sub-traffic-left" style="font-size: 14.5px;">-</span>
+            </div>
+            <div class="stats-card" style="padding: 10px 14px; gap: 4px;">
+              <span class="stats-label" style="font-size: 10px;">Days Left</span>
+              <span class="stats-value" id="edit-sub-days-left" style="font-size: 14.5px;">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 6px; border-radius: 10px; height: 40px; font-size: 14px; font-weight: 600;" onclick="saveSubscriptionEdits()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Server & Subscription Modal -->
+  <div id="import-modal" class="stats-modal" style="display:none;">
+    <div class="stats-modal-content import-modal-content">
+      <div class="stats-modal-header" style="padding: 16px 22px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 34px; height: 34px; border-radius: 10px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14); display: flex; align-items: center; justify-content: center; color: #ffffff;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 16.5px; margin: 0; font-weight: 600;">Import Servers or Subscriptions</h3>
+            <p style="font-size: 11.5px; color: var(--text-secondary); margin: 2px 0 0 0;">Add one or multiple proxy links &amp; subscription URLs</p>
+          </div>
+        </div>
+        <button class="stats-close-btn" onclick="closeImportModal()">✕</button>
+      </div>
+
+      <div class="stats-modal-body" style="padding: 14px 20px 18px 20px; display: flex; flex-direction: column; gap: 10px;">
+        <textarea id="txt-import-content" class="import-textarea" placeholder="Paste server links (vless://, vmess://, etc.) or subscription URLs here...&#10;Batch import supported: paste multiple links separated by newlines or spaces." spellcheck="false" autocomplete="off" oninput="updateImportPreview()"></textarea>
+
+        <!-- Toolbar under textarea -->
+        <div class="import-toolbar">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="import-sub-btn" onclick="pasteFromClipboard()" style="display: flex; align-items: center; gap: 6px; font-size: 12px; padding: 6px 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); color: #ffffff; cursor: pointer;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Paste from Clipboard</span>
+            </button>
+            <button class="import-sub-btn" onclick="clearImportText()" style="font-size: 12px; padding: 6px 12px; border-radius: 8px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-secondary); cursor: pointer;">
+              Clear
+            </button>
+          </div>
+
+          <div id="import-preview-badge" class="import-preview-badge">
+            <span>Waiting for input...</span>
+          </div>
+        </div>
+
+        <!-- Status message / banner -->
+        <div id="import-status-banner" style="display: none; padding: 10px 14px; border-radius: 10px; font-size: 12.5px; align-items: center; gap: 8px; margin-top: 4px;"></div>
+
+        <!-- Action row -->
+        <div style="display: flex; gap: 10px; margin-top: 6px;">
+          <button onclick="closeImportModal()" style="flex: 1; height: 40px; border-radius: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-secondary); font-size: 13.5px; font-weight: 500; cursor: pointer;">Cancel</button>
+          <button id="btn-do-import" class="btn-primary" onclick="executeBatchImport()" style="flex: 2; height: 40px; border-radius: 10px; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;" disabled>
+            <span>Import</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div id="help-modal" class="help-modal" style="display:none;">
+    <div class="help-modal-content">
+      <div class="help-modal-header">
+        <div class="help-lang-switcher">
+          <button class="help-lang-btn active" data-lang="en" onclick="switchHelpLang('en')">EN</button>
+          <button class="help-lang-btn" data-lang="fa" onclick="switchHelpLang('fa')">فا</button>
+        </div>
+        <button class="help-close-btn" onclick="closeHelp()">✕</button>
+      </div>
+      <div class="help-modal-body" id="help-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Edit Server Modal -->
+  <div id="edit-server-modal" class="stats-modal" style="display:none; z-index: 10000;">
+    <div class="stats-modal-content" style="max-width: 480px;">
+      <div class="stats-modal-header" style="padding: 16px 24px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          <h3 style="font-size: 16.5px;">Edit Server</h3>
+        </div>
+        <button class="stats-close-btn" onclick="closeEditServerModal()">✕</button>
+      </div>
+
+      <div class="stats-modal-body" style="padding: 18px 24px;">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Remark (Name)</label>
+            <input type="text" id="edit-svr-remark" class="fancy-input" placeholder="Server Name" style="width: 100%; border-radius: 8px; box-sizing: border-box; height: 38px; font-size: 13px;" />
+          </div>
+          
+          <div style="display: flex; gap: 12px;">
+            <div style="display: flex; flex-direction: column; gap: 6px; flex: 2;">
+              <label style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Address</label>
+              <input type="text" id="edit-svr-address" class="fancy-input" placeholder="IP or Domain" style="width: 100%; border-radius: 8px; box-sizing: border-box; height: 38px; font-size: 13px;" />
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
+              <label style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Port</label>
+              <input type="number" id="edit-svr-port" class="fancy-input" placeholder="443" style="width: 100%; border-radius: 8px; box-sizing: border-box; height: 38px; font-size: 13px;" />
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">UUID / Password</label>
+            <input type="text" id="edit-svr-id" class="fancy-input" placeholder="UUID or Password" style="width: 100%; border-radius: 8px; box-sizing: border-box; height: 38px; font-size: 13px;" />
+          </div>
+
+          <div style="display: flex; gap: 12px;">
+            <div style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
+              <label style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">SNI</label>
+              <input type="text" id="edit-svr-sni" class="fancy-input" placeholder="Server Name Indication" style="width: 100%; border-radius: 8px; box-sizing: border-box; height: 38px; font-size: 13px;" />
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
+              <label style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Host</label>
+              <input type="text" id="edit-svr-host" class="fancy-input" placeholder="Host header" style="width: 100%; border-radius: 8px; box-sizing: border-box; height: 38px; font-size: 13px;" />
+            </div>
+          </div>
+        </div>
+        
+        <!-- Action row -->
+        <div style="display: flex; gap: 10px; margin-top: 24px;">
+          <button onclick="closeEditServerModal()" style="flex: 1; height: 42px; border-radius: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-secondary); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;">Cancel</button>
+          <button class="btn-primary" onclick="saveServerEdits()" style="flex: 1; height: 42px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Save</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
 </body>
 </html>
+

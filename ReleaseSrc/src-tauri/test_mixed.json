@@ -1,5 +1,0 @@
-{
-    ""log"": {""loglevel"": ""warning""},
-    ""inbounds"": [{""listen"": ""127.0.0.1"", ""port"": 2099, ""protocol"": ""mixed"", ""settings"": {}}],
-    ""outbounds"": [{""protocol"": ""freedom""}]
-}

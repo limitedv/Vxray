@@ -1,7 +1,0 @@
-{
-        ""route"": {
-            ""rules"": [
-                {""ip_cidr"": [""fsxhh1.eorqen.ir""], ""outbound"": ""direct""}
-            ]
-        }
-}

@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+src-tauri/target/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary scripts
+*.py
+*.pyc
+
+# Debug/test binaries
+*.pdb
+test_*.exe
+
+# Backup files
+*.bak
+*.orig
+
+# Logs
+*.log

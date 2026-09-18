@@ -1,0 +1,30 @@
+
+{
+  "log": { "level": "warn" },
+  "inbounds": [
+    {
+      "type": "http",
+      "tag": "http-in",
+      "listen": "127.0.0.1",
+      "listen_port": 2089
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "vless",
+      "tag": "proxy",
+      "server": "NVME.kakeroo.ir",
+      "server_port": 80,
+      "uuid": "28eb2ffa-81c0-450c-ae60-db87bacc0cc0",
+      "packet_encoding": "xudp",
+      "transport": {
+        "type": "ws",
+        "path": "/",
+        "headers": {
+          "Host": "FRANKDOLL.global.ssl.fastly.net"
+        }
+      }
+    }
+  ]
+}
+
